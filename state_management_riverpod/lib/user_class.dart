@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 @immutable
 class User {
@@ -91,5 +92,21 @@ class UserChangeNotifier extends ChangeNotifier {
   void updateAge(String age) {
     user = user.copyWith(age: int.parse(age));
     notifyListeners();
+  }
+}
+// provider-ref
+
+final fetchUserProvider3 = Provider((ref) => FetchUser());
+
+class FetchUser {
+  Future<User> fetchUserData() async {
+    const url = 'https://jsonplaceholder.typicode.com/users/1/';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return User.fromJson(response.body);
+    } else {
+      throw Exception('Failed to load user data');
+    }
   }
 }

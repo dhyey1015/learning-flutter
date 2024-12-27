@@ -38,6 +38,11 @@ final fetchUserProvider = FutureProvider<User>((ref) async {
     throw Exception('Failed to load user data');
   }
 });
+//provider-ref
+final fetchUserProvider1 = FutureProvider<User>((ref) async {
+  final fetchUser = ref.watch(fetchUserProvider3);
+  return fetchUser.fetchUserData();
+});
 
 void main() {
   runApp(
