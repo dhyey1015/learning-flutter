@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:state_management_riverpod/providers_classes.dart';
+import 'package:state_management_riverpod/provider.dart';
 
 //1) Provider
 
