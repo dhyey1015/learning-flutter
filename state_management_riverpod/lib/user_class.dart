@@ -1,23 +1,29 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @immutable
 class User {
   final String name;
-  final int age;
+  final int? age;
+  final String email;
   const User({
     required this.name,
-    required this.age,
+    this.age,
+    required this.email,
   });
 
   User copyWith({
     String? name,
     int? age,
+    String? email,
   }) {
     return User(
       name: name ?? this.name,
       age: age ?? this.age,
+      email: email ?? this.email,
     );
   }
 
@@ -25,13 +31,16 @@ class User {
     return <String, dynamic>{
       'name': name,
       'age': age,
+      'email': email,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       name: map['name'] as String,
-      age: map['age'] as int,
+      age:
+          map['age'] != null ? map['age'] as int : null, // Handle missing `age`
+      email: map['email'] as String,
     );
   }
 
@@ -41,17 +50,17 @@ class User {
       User.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'User(name: $name, age: $age)';
+  String toString() => 'User(name: $name, age: $age, email: $email)';
 
   @override
   bool operator ==(covariant User other) {
     if (identical(this, other)) return true;
 
-    return other.name == name && other.age == age;
+    return other.name == name && other.age == age && other.email == email;
   }
 
   @override
-  int get hashCode => name.hashCode ^ age.hashCode;
+  int get hashCode => name.hashCode ^ age.hashCode ^ email.hashCode;
 }
 
 class UserStateNotifier extends StateNotifier<User> {
@@ -69,10 +78,10 @@ class UserStateNotifier extends StateNotifier<User> {
 //class for ChangeProvider
 
 class UserChangeNotifier extends ChangeNotifier {
-  User user = const User(name: '', age: 0);
+  User user = const User(name: '', age: 0, email: '');
 
   String get name => user.name; // Getter for name
-  int get age => user.age;
+  int? get age => user.age;
 
   void updateName(String name) {
     user = user.copyWith(name: name);
