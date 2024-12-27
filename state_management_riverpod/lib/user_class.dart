@@ -110,3 +110,41 @@ class FetchUser {
     }
   }
 }
+
+// for modifiers
+
+final fetchUserProvider4 = Provider((ref) => FetchUser1());
+
+class FetchUser1 {
+  Future<User> fetchUserData(String input) async {
+    var url = 'https://jsonplaceholder.typicode.com/users/$input';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return User.fromJson(response.body);
+    } else {
+      throw Exception('Failed to load user data');
+    }
+  }
+}
+
+class FetchUser2 extends StateNotifier<bool> {
+  FetchUser2() : super(false);
+  final TextEditingController controller = TextEditingController();
+  Future<User> fetchUserData(String input) async {
+    var url = 'https://jsonplaceholder.typicode.com/users/$input';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return User.fromJson(response.body);
+    } else {
+      throw Exception('Failed to load user data');
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+}

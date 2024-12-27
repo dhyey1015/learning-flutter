@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:state_management_riverpod/change_notifier%20_and_change_notifier_provider.dart';
 import 'package:state_management_riverpod/future_provider.dart';
+import 'package:state_management_riverpod/modifiers.dart';
 import 'package:state_management_riverpod/provider.dart';
 import 'package:state_management_riverpod/provider_stateful.dart';
 import 'package:state_management_riverpod/state_notifier_and_state_notifier_provider.dart';
@@ -50,6 +51,16 @@ final fetchUserProvider1 = FutureProvider<User>((ref) async {
 final streamProvider = StreamProvider((ref) async* {
   yield [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 });
+
+// Mofiiers
+
+//1) .family, .autodispose
+final fetchUserProvider2 =
+    FutureProvider.family.autoDispose((ref, String input) async {
+  final fetchUser1 = ref.watch(fetchUserProvider4);
+  return fetchUser1.fetchUserData(input);
+});
+
 void main() {
   runApp(
     const ProviderScope(
@@ -63,7 +74,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: StreamProviderClass(),
+      home: FutureProviderClassModifiers(),
     );
   }
 }
