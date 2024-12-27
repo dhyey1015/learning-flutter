@@ -5,6 +5,7 @@ import 'package:state_management_riverpod/future_provider.dart';
 import 'package:state_management_riverpod/provider.dart';
 import 'package:state_management_riverpod/provider_stateful.dart';
 import 'package:state_management_riverpod/state_notifier_and_state_notifier_provider.dart';
+import 'package:state_management_riverpod/stream_provider.dart';
 import 'package:state_management_riverpod/user_class.dart';
 import 'package:http/http.dart' as http;
 import 'package:state_management_riverpod/state_provider.dart';
@@ -44,6 +45,11 @@ final fetchUserProvider1 = FutureProvider<User>((ref) async {
   return fetchUser.fetchUserData();
 });
 
+// 6) StreamProvider
+
+final streamProvider = StreamProvider((ref) async* {
+  yield [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+});
 void main() {
   runApp(
     const ProviderScope(
@@ -57,7 +63,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: FutureProviderClass(),
+      home: StreamProviderClass(),
     );
   }
 }
