@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+@immutable
 class User {
   final String name;
   final int age;
-  User({
+  const User({
     required this.name,
     required this.age,
   });
@@ -52,8 +54,8 @@ class User {
   int get hashCode => name.hashCode ^ age.hashCode;
 }
 
-class UserNotifier extends StateNotifier<User> {
-  UserNotifier(super.state);
+class UserStateNotifier extends StateNotifier<User> {
+  UserStateNotifier(super.state);
 
   void updateName(String name) {
     state = state.copyWith(name: name);
@@ -61,5 +63,24 @@ class UserNotifier extends StateNotifier<User> {
 
   void updateAge(String age) {
     state = state.copyWith(age: int.parse(age));
+  }
+}
+
+//class for ChangeProvider
+
+class UserChangeNotifier extends ChangeNotifier {
+  User user = const User(name: '', age: 0);
+
+  String get name => user.name; // Getter for name
+  int get age => user.age;
+
+  void updateName(String name) {
+    user = user.copyWith(name: name);
+    notifyListeners();
+  }
+
+  void updateAge(String age) {
+    user = user.copyWith(age: int.parse(age));
+    notifyListeners();
   }
 }
