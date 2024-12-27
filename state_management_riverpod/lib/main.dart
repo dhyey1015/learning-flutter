@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:state_management_riverpod/change_notifier%20_and_change_notifier_provider.dart';
 import 'package:state_management_riverpod/future_provider.dart';
+import 'package:state_management_riverpod/logger_riverpod.dart';
 import 'package:state_management_riverpod/modifiers.dart';
 import 'package:state_management_riverpod/provider.dart';
 import 'package:state_management_riverpod/provider_stateful.dart';
@@ -61,10 +62,24 @@ final fetchUserProvider2 =
   return fetchUser1.fetchUserData(input);
 });
 
+// there are 3 types of ref
+//  1) WidgetRef
+//  2) ProviderRef
+// 3) Ref this ref is used in side the normal classes which does not extends
+//    form state or something
+
+// ref.keepAlive this method is used to keep a provider alive even if we dispose it
+// ref.onDispose this methods let us do something after we dispose a provider
+// ref.onCancel this is used whenever provider goes into a paused state that means
+// its no longer being used for certain time or got disposed that time oncancel gets run
+// ref.resume when ever your provider get resume what you want to do is added here
+// ref.onAddListener ref.onRemoveListener
+
 void main() {
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    ProviderScope(
+      observers: [LoggerRiverpod()],
+      child: const MyApp(),
     ),
   );
 }
