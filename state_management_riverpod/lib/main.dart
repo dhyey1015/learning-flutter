@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:state_management_riverpod/change_notifier%20_and_change_notifier_provider.dart';
 import 'package:state_management_riverpod/future_provider.dart';
 import 'package:state_management_riverpod/logger_riverpod.dart';
@@ -11,6 +12,8 @@ import 'package:state_management_riverpod/stream_provider.dart';
 import 'package:state_management_riverpod/user_class.dart';
 import 'package:http/http.dart' as http;
 import 'package:state_management_riverpod/state_provider.dart';
+
+part 'main.g.dart';
 
 //1) Provider
 final nameProvider = Provider((ref) {
@@ -62,6 +65,11 @@ final fetchUserProvider2 =
   return fetchUser1.fetchUserData(input);
 });
 
+@riverpod
+Future<User> fetchUser1(Ref ref, String input) {
+  final fetchUser = ref.watch(fetchUserProvider3);
+  return fetchUser.fetchUserData();
+}
 // there are 3 types of ref
 //  1) WidgetRef
 //  2) ProviderRef

@@ -1,0 +1,1 @@
+Annotations are classes  that convey some information . for example @override tells that methods of a class are form superclass 

@@ -1,0 +1,14 @@
+target:
+  $default:
+      builders:
+        generators|annotations:
+          enabled: true
+
+builders:
+  generators: ":generators"
+  import: "package:generators/generators.dart"
+  builder_factories: ["generateJsonClass"]
+  build_extentions: {".dart": [".g.dart"]}
+  auto_apply: dependents
+  build_to: cache
+  applies_builders: ["source_gen|combining_builder"]
